@@ -162,4 +162,6 @@ const run = async () => {
 	log(reward);
 }
 
-run()
+setInterval(() => {
+	run();
+}, 5000)
