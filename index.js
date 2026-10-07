@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         TwitchAutoReward
-// @version      1.1
+// @version      2.0
 // @description  Automatic click to reward
 // @author       https://github.com/jennifer-ross
 // @match        https://twitch.tv/*
@@ -37,6 +37,15 @@ function GM_addStyle(css) {
 const run = async () => {
 	const log = (str) => console.log(`[Reward]:`, str);
 	const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+	const waitFor = async (selector, timeout = 60000, interval = 500) => {
+		const start = Date.now();
+		while (Date.now() - start < timeout) {
+			const el = document.querySelector(selector);
+			if (el) return el;
+			await sleep(interval);
+		}
+		return null;
+	};
 	
 	const reward = {
 		btnContainer: {
@@ -146,22 +155,16 @@ const run = async () => {
 	
 	await sleep(3000);
 	
-	for (; ;) {
-		if (!reward.btnContainer.el) {
-			reward.btnContainer.el = document.querySelector(reward.btnContainer.s);
-			continue;
-		} else {
-			createControls();
-			await sleep(1000);
-			break;
-		}
-		
-		await sleep(2000);
+	reward.btnContainer.el = await waitFor(reward.btnContainer.s, 60000);
+	if (!reward.btnContainer.el) {
+		log('chat input buttons container not found, aborting');
+		return;
 	}
+	createControls();
 	
 	log(reward);
 }
 
-setInterval(() => {
+if ((location.pathname !== '/' && location.pathname !== '')) {
 	run();
-}, 5000)
+}
