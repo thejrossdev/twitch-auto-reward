@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         TwitchAutoReward
-// @version      1.0
+// @version      1.1
 // @description  Automatic click to reward
 // @author       https://github.com/jennifer-ross
 // @match        https://twitch.tv/*
