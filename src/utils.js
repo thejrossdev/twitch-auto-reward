@@ -6,7 +6,6 @@ export const err = (str) => console.error(`[Reward]:`, str);
 
 export const waitFor = async (selector, timeout = 60000, interval = 500) => {
 	const start = Date.now();
-	log(`wait for: ${selector}`);
 	while (Date.now() - start < timeout) {
 		const el = document.querySelector(selector);
 		if (el) return el;
