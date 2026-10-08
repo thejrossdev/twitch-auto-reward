@@ -1,21 +1,21 @@
 // https://vite.dev/config/
-import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { defineConfig } from 'vite';
+import {svelte} from '@sveltejs/vite-plugin-svelte';
+import {defineConfig} from 'vite';
 import monkey from 'vite-plugin-monkey';
-import { viteSingleFile } from 'vite-plugin-singlefile';
+import {viteSingleFile} from 'vite-plugin-singlefile';
 
 const buildParams = {
 	cssMinify: true,
 	minify: true,
 	commonjsOptions: {
-		transformMixedEsModules: true,
+		transformMixedEsModules: true
 	},
 	terserOptions: {
 		compress: true,
-		mangle: true,
+		mangle: true
 	},
 	outDir: '.',
-	fileName: 'index.js',
+	fileName: 'index.js'
 };
 
 export default defineConfig({
@@ -25,7 +25,7 @@ export default defineConfig({
 			entry: 'src/main.js',
 			userscript: {
 				name: 'TwitchAutoReward',
-				version: '3.0',
+				version: '3.1',
 				description: 'Automatic clicker to redeem the reward in twitch.tv.',
 				author: 'https://github.com/jennifer-ross',
 				match: ['https://twitch.tv/*', 'https://*.twitch.tv/*'],
@@ -45,23 +45,23 @@ export default defineConfig({
 					'unsafeWindow',
 					'window.close',
 					'window.focus',
-					'window.onurlchange',
+					'window.onurlchange'
 				],
-				license: 'MIT',
+				license: 'MIT'
 			},
-			build: buildParams,
+			build: buildParams
 		}),
 		viteSingleFile({
-			removeViteModuleLoader: true,
-		}),
+			removeViteModuleLoader: true
+		})
 	],
 	rollupOptions: {
 		output: {
 			manualChunks: false,
 			inlineDynamicImports: true,
 			entryFileNames: '[name].js',
-			assetFileNames: '[name].[ext]',
-		},
+			assetFileNames: '[name].[ext]'
+		}
 	},
-	build: buildParams,
+	build: buildParams
 });

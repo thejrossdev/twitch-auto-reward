@@ -3,12 +3,17 @@
 	import config from '../config.js'
 	import {log, waitFor} from '../utils';
 
-	let enabled = false;
-	let intervalId = null;
+	let isEnabled = false;
+	let isRunning = false;
+	let rewardSelector = config.settings?.rewards.map(
+		/**
+		 * @param reward {string}
+		 */
+		reward => config.reward.rewardBtns.s(reward)).join(',');
 
 	async function action() {
 		const {reward} = config;
-		const {rewardOpenBtn, rewardList, rewardBtns, redeemBtn} = reward;
+		const {rewardOpenBtn, rewardList, redeemBtn} = reward;
 
 		/** @type {HTMLButtonElement | null} */
 		const rewardOpenBtnEl = document.querySelector(rewardOpenBtn.s);
@@ -27,14 +32,20 @@
 		}
 
 		// Wait for loading the reward for redeem
-		const rewardBtnEl = await waitFor(rewardBtns.s, config.clicker.loadDelay);
+		const rewardBtnEl = await waitFor(rewardSelector, config.clicker.loadDelay);
 
 		if (!rewardBtnEl) {
-			return;
+			return false;
 		}
 
 		/** @type {HTMLButtonElement | null} */
 		const btn = rewardBtnEl.parentElement.parentElement.querySelector('button');
+
+		if (!btn) {
+			return;
+		}
+
+		btn.scrollIntoView({behavior: 'instant', block: 'end', inline: 'end'});
 		btn.click();
 
 		// Wait for loading the redeem button
@@ -47,6 +58,10 @@
 		/** @type {HTMLButtonElement | null} */
 		const redeemBtnEl = redeemBtnTargetEl.parentElement.parentElement.parentElement.parentElement;
 
+		if (!redeemBtnEl) {
+			return;
+		}
+
 		if (redeemBtnEl.disabled) {
 			const closeBtn = document
 			.querySelector(reward.closeBtn.s)
@@ -58,29 +73,38 @@
 		}
 	}
 
+	async function runLoop() {
+		if (isRunning) return;
+		isRunning = true;
+
+		while (isEnabled) {
+			await action();
+			await new Promise(resolve => setTimeout(resolve, config.clicker.repeatDelay));
+		}
+	}
+
 	function toggle() {
-		enabled = !enabled;
-		if (enabled) {
-			log('enabled');
-			intervalId = setInterval(action, config.clicker.repeatDelay);
+		isEnabled = !isEnabled;
+		if (isEnabled) {
+			log('Enabled');
+			runLoop();
 		} else {
-			log('disabled');
-			if (intervalId) clearInterval(intervalId);
+			log('Disabled');
 		}
 	}
 
 	onDestroy(() => {
-		if (intervalId) clearInterval(intervalId);
+		isEnabled = false;
 	});
 </script>
 
 <button
-	class="twitch-btn {enabled ? 'enabled' : ''}"
+	class="twitch-btn {isEnabled ? 'enabled' : ''}"
 	on:click={toggle}
-	title="{enabled ? 'Disable Reward' : 'Enable Reward'}"
+	title="{isEnabled ? 'Disable Reward' : 'Enable Reward'}"
 >
 	Reward
-	{#if enabled}
+	{#if isEnabled}
 		<span style="margin-left: 5px; color: springgreen">☑</span>
 	{/if}
 </button>
