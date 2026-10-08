@@ -90,11 +90,13 @@
 			runLoop();
 		} else {
 			log('Disabled');
+			isRunning = false;
 		}
 	}
 
 	onDestroy(() => {
 		isEnabled = false;
+		isRunning = false;
 	});
 </script>
 
