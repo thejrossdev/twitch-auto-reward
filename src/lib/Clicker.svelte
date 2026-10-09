@@ -11,6 +11,14 @@
 		 */
 		reward => config.reward.rewardBtns.s(reward)).join(',');
 
+	// Find close button and close the popup reward. Can find only after render Reward list
+	async function closeReward() {
+		const closeBtn = document
+		.querySelector(config.reward.closeBtn.s)
+		.nextElementSibling.nextElementSibling.querySelector('button');
+		closeBtn.click();
+	}
+
 	async function action() {
 		const {reward} = config;
 		const {rewardOpenBtn, rewardList, redeemBtn} = reward;
@@ -42,16 +50,18 @@
 		const btn = rewardBtnEl.parentElement.parentElement.querySelector('button');
 
 		if (!btn) {
+			await closeReward();
 			return;
 		}
 
-		btn.scrollIntoView({behavior: 'instant', block: 'end', inline: 'end'});
+		rewardBtnEl.scrollIntoView({behavior: 'instant', block: 'end', inline: 'end'});
 		btn.click();
 
 		// Wait for loading the redeem button
 		const redeemBtnTargetEl = await waitFor(redeemBtn.s, config.clicker.loadDelay);
 
 		if (!redeemBtnTargetEl) {
+			await closeReward();
 			return;
 		}
 
@@ -59,15 +69,12 @@
 		const redeemBtnEl = redeemBtnTargetEl.parentElement.parentElement.parentElement.parentElement;
 
 		if (!redeemBtnEl) {
+			await closeReward();
 			return;
 		}
 
 		if (redeemBtnEl.disabled) {
-			const closeBtn = document
-			.querySelector(reward.closeBtn.s)
-			.nextElementSibling.nextElementSibling.querySelector('button');
-			closeBtn.click();
-			return false;
+			await closeReward();
 		} else {
 			redeemBtnEl.click();
 		}
