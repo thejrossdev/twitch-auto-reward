@@ -25,7 +25,7 @@ export default defineConfig({
 			entry: 'src/main.js',
 			userscript: {
 				name: 'TwitchAutoReward',
-				version: '3.1',
+				version: '3.2',
 				description: 'Automatic clicker to redeem the reward in twitch.tv.',
 				author: 'https://github.com/jennifer-ross',
 				match: ['https://twitch.tv/*', 'https://*.twitch.tv/*'],
