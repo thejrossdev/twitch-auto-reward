@@ -1,26 +1,44 @@
 <script>
-	import Clicker from './lib/Clicker.svelte'
+	import CloseIcon from './lib/icons/CloseIcon.svelte'
+	import LuniteClicker from './lib/LuniteClicker.svelte'
+	import PlaylistClicker from './lib/PlaylistClicker.svelte'
+	import Popup from './lib/Popup.svelte'
 
-	let isHidden = false;
+	let isPopupOpen = $state(false);
+	let popupContent = $state(null);
+	let popupTitle = $state('');
+	let isHidden = $state(false);
 
 	function hide() {
 		isHidden = true;
+	}
+
+	function openPopup(contentSnippet, contentTitle = '') {
+		popupContent = contentSnippet;
+		popupTitle = contentTitle;
+		isPopupOpen = true;
+	}
+
+	function closePopup() {
+		isPopupOpen = false;
+		popupContent = null;
 	}
 </script>
 
 <div class="auto-reward-container {isHidden ? 'reward-hidden' : ''}">
 	{#if !isHidden}
-		<Clicker/>
+		<LuniteClicker/>
+		<PlaylistClicker openPopup={openPopup}/>
+
 		<div class="auto-reward-controls">
-			<button class="twitch-btn" on:click={hide} title="Hide all">
-				<svg aria-hidden="true" fill="#fff" focusable="false" height="18px" role="presentation"
-					 viewBox="0 0 24 24"
-					 width="18px">
-					<path
-						d="M6.414 5 5 6.414l5.588 5.588L5 17.59l1.414 1.414 5.588-5.588 5.588 5.588 1.414-1.414-5.588-5.588 5.588-5.588L17.59 5l-5.588 5.588L6.414 5Z"></path>
-				</svg>
+			<button class="twitch-btn" onclick={hide} title="Hide all">
+				<CloseIcon/>
 			</button>
 		</div>
+
+		<Popup isOpen={isPopupOpen} onClose={closePopup} title={popupTitle}>
+			{@render popupContent?.()}
+		</Popup>
 	{/if}
 </div>
 

@@ -26,7 +26,7 @@ export default defineConfig({
 			userscript: {
 				name: 'TwitchAutoReward',
 				version: '3.2',
-				description: 'Automatic clicker to redeem the reward in twitch.tv.',
+				description: 'Automatic clicker to redeem channel points rewards on twitch.tv. And other automations. Built for Tampermonkey.',
 				author: 'https://github.com/jennifer-ross',
 				match: ['https://twitch.tv/*', 'https://*.twitch.tv/*'],
 				icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitch.tv',

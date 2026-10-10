@@ -3,8 +3,8 @@
 	import config from '../config.js'
 	import {log, waitFor} from '../utils';
 
-	let isEnabled = false;
-	let isRunning = false;
+	let isEnabled = $state(false);
+	let isRunning = $state(false);
 	let rewardSelector = config.settings?.rewards.map(
 		/**
 		 * @param reward {string}
@@ -109,7 +109,7 @@
 
 <button
 	class="twitch-btn {isEnabled ? 'enabled' : ''}"
-	on:click={toggle}
+	onclick={toggle}
 	title="{isEnabled ? 'Disable Reward' : 'Enable Reward'}"
 >
 	Reward
