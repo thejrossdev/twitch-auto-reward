@@ -27,11 +27,17 @@ const cfg = {
 		},
 		rewardBtns: {
 			s: (str) => `[title="${str}"]`
+		},
+		chatInput: {
+			s: '[data-test-selector="chat-input"]'
 		}
 	},
 	settings: loadSettings({
-		// 1 - Maliwan, 2 - miroichii
-		rewards: ['Луна (Lunite Subscription) в Вуве', 'Луна (Lunite Subscription)']
+		rewards: {
+			// 1 - Maliwan, 2 - miroichii
+			lunite: ['Луна (Lunite Subscription) в Вуве', 'Луна (Lunite Subscription)'],
+			music: ['музыка', 'Заказ музыки', 'Заказ трека', 'Заказать трек']
+		}
 	})
 };
 

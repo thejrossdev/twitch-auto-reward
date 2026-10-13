@@ -6,7 +6,7 @@
 
 	let isEnabled = $state(false);
 	let isRunning = $state(false);
-	let rewardSelector = config.settings?.rewards.map(
+	let rewardSelector = config.settings?.rewards?.lunite.map(
 		/**
 		 * @param reward {string}
 		 */
