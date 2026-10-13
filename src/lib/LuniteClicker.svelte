@@ -1,7 +1,8 @@
 <script>
 	import {onDestroy} from 'svelte'
 	import config from '../config.js'
-	import {log, waitFor} from '../utils';
+	import {openAndRedeemReward} from '../twitch'
+	import {log} from '../utils';
 
 	let isEnabled = $state(false);
 	let isRunning = $state(false);
@@ -11,73 +12,8 @@
 		 */
 		reward => config.reward.rewardBtns.s(reward)).join(',');
 
-	// Find close button and close the popup reward. Can find only after render Reward list
-	async function closeReward() {
-		const closeBtn = document
-		.querySelector(config.reward.closeBtn.s)
-		.nextElementSibling.nextElementSibling.querySelector('button');
-		closeBtn.click();
-	}
-
 	async function action() {
-		const {reward} = config;
-		const {rewardOpenBtn, rewardList, redeemBtn} = reward;
-
-		/** @type {HTMLButtonElement | null} */
-		const rewardOpenBtnEl = document.querySelector(rewardOpenBtn.s);
-
-		if (!rewardOpenBtnEl) {
-			return;
-		}
-
-		rewardOpenBtnEl.click();
-
-		// Wait for loading list of available rewards
-		const rewardListEl = await waitFor(rewardList.s, config.clicker.loadDelay);
-
-		if (!rewardListEl) {
-			return;
-		}
-
-		// Wait for loading the reward for redeem
-		const rewardBtnEl = await waitFor(rewardSelector, config.clicker.loadDelay);
-
-		if (!rewardBtnEl) {
-			return false;
-		}
-
-		/** @type {HTMLButtonElement | null} */
-		const btn = rewardBtnEl.parentElement.parentElement.querySelector('button');
-
-		if (!btn) {
-			await closeReward();
-			return;
-		}
-
-		rewardBtnEl.scrollIntoView({behavior: 'instant', block: 'end', inline: 'end'});
-		btn.click();
-
-		// Wait for loading the redeem button
-		const redeemBtnTargetEl = await waitFor(redeemBtn.s, config.clicker.loadDelay);
-
-		if (!redeemBtnTargetEl) {
-			await closeReward();
-			return;
-		}
-
-		/** @type {HTMLButtonElement | null} */
-		const redeemBtnEl = redeemBtnTargetEl.parentElement.parentElement.parentElement.parentElement;
-
-		if (!redeemBtnEl) {
-			await closeReward();
-			return;
-		}
-
-		if (redeemBtnEl.disabled) {
-			await closeReward();
-		} else {
-			redeemBtnEl.click();
-		}
+		await openAndRedeemReward(rewardSelector);
 	}
 
 	async function runLoop() {
