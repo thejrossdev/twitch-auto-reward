@@ -29,10 +29,10 @@
 	function toggle() {
 		isEnabled = !isEnabled;
 		if (isEnabled) {
-			log('Enabled');
+			log('Lunite Enabled');
 			runLoop();
 		} else {
-			log('Disabled');
+			log('Lunite Disabled');
 			isRunning = false;
 		}
 	}
