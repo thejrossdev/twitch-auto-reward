@@ -8,7 +8,6 @@
 
 	let isEnabled = $state(false);
 	let isRunning = $state(false);
-	let isEnded = $state(true);
 
 	// there is format "text,text,text'
 	let rewardSelectors = $state(config.settings?.rewards?.music.join(','));
@@ -116,7 +115,6 @@
 	function clear() {
 		isEnabled = false;
 		isRunning = false;
-		isEnded = true;
 		parsedLinks = null;
 		rawLinks = '';
 	}
@@ -136,7 +134,7 @@
 				id="reward-selectors"
 				bind:value={rewardSelectors}
 				placeholder=". "
-				disabled={!isEnded && (isEnabled || isRunning)}
+				disabled={isEnabled || isRunning}
 			/>
 		</div>
 		<div class="setting-row">
@@ -149,7 +147,7 @@
 				id="prepend-text"
 				bind:value={prependText}
 				placeholder=". "
-				disabled={!isEnded && (isEnabled || isRunning)}
+				disabled={isEnabled || isRunning}
 			/>
 		</div>
 		<div class="setting-row">
@@ -165,7 +163,7 @@
 				bind:value={rawLinks}
 				placeholder="https://www.youtube.com/watch?v=ZyXef3Nk3K4,https://www.youtube.com/watch?v=ZyXef3Nk3K4"
 				rows="12"
-				disabled={!isEnded && (isEnabled || isRunning)}
+				disabled={isEnabled || isRunning}
 			>
 			</textarea>
 		</div>
@@ -183,7 +181,7 @@
 			<button
 				class="twitch-btn"
 				onclick={toggle}
-				disabled={!isEnded && (!parsedLinks || !parsedLinks.list || parsedLinks.list.length === 0 || isEnabled || isRunning)}
+				disabled={(!parsedLinks || !parsedLinks.list || parsedLinks.list.length === 0) || (isEnabled || isRunning)}
 			>
 				Start
 			</button>
