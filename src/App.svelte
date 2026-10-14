@@ -28,7 +28,7 @@
 <div class="auto-reward-container {isHidden ? 'reward-hidden' : ''}">
 	{#if !isHidden}
 		<LuniteClicker/>
-		<PlaylistClicker openPopup={openPopup}/>
+		<PlaylistClicker openPopup={openPopup} closePopup={closePopup}/>
 
 		<div class="auto-reward-controls">
 			<button class="twitch-btn" onclick={hide} title="Hide all">
@@ -94,5 +94,37 @@
 	:global(.twitch-btn.enabled) {
 		box-shadow: 0 0 5px rgba(145, 71, 255, 0.6);
 		background-color: var(--color-background-button-primary-hover, #772ce8);
+	}
+
+	:global(.twitch-btn:disabled),
+	:global(.twitch-btn:disabled:hover) {
+		cursor: not-allowed;
+		opacity: 0.5;
+		box-shadow: none;
+		background-color: var(--color-background-button-secondary-default, rgba(83, 83, 95, 0.38));
+	}
+
+	:global(.twitch-btn.accent:disabled),
+	:global(.twitch-btn.accent:disabled:hover) {
+		background-color: var(--color-background-button-primary-default, #9147ff);
+	}
+
+	:global(.twitch-btn.enabled:disabled),
+	:global(.twitch-btn.enabled:disabled:hover) {
+		background-color: var(--color-background-button-primary-hover, #772ce8);
+	}
+
+	:global(.setting-row input:disabled),
+	:global(.setting-row textarea:disabled) {
+		cursor: not-allowed;
+		opacity: 0.6;
+		background-color: #18181b;
+		color: var(--color-text-alt, #adadb8);
+	}
+
+	:global(.setting-row input:disabled:focus),
+	:global(.setting-row textarea:disabled:focus) {
+		border: 1px solid #303032;
+		outline: none;
 	}
 </style>
