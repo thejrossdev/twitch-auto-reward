@@ -37,6 +37,15 @@ const cfg = {
 			// 1 - Maliwan, 2 - miroichii
 			lunite: ['Луна (Lunite Subscription) в Вуве', 'Луна (Lunite Subscription)'],
 			music: ['музыка', 'Заказ музыки', 'Заказ трека', 'Заказать трек']
+		},
+		prependText: {
+			music: '. '
+		},
+		lastMusic: {
+			ready: 0,
+			total: 0,
+			listType: null,
+			list: null
 		}
 	})
 };

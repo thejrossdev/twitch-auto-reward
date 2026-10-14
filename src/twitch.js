@@ -144,7 +144,7 @@ export const insertTextToChat = async (messageText) => {
 	}));
 }
 
-function sendChatMessage() {
+export const sendChatMessage = async () => {
 	const chatInput = document.querySelector(config.reward.chatInput.s);
 	if (!chatInput) return;
 

@@ -46,3 +46,69 @@ export const loadSettingsGM = (defaultValue = {}) => {
 	const data = GM_getValue(SETTINGS_KEY);
 	return data ? JSON.parse(data) : defaultValue;
 };
+
+/**
+ * Parse YT urls from string
+ * @param strURLs {string}
+ * @returns {$ObjMap | boolean}
+ */
+export const parseURLs = (strURLs) => {
+	if (!strURLs || typeof strURLs !== 'string' || !strURLs.trim()) {
+		return false;
+	}
+
+	const ytRegex = /https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)[\w-]{11}/gi;
+
+	// scriptmind.co (JSON format)
+	try {
+		const jsonURLs = JSON.parse(strURLs);
+		if (jsonURLs && jsonURLs.hasOwnProperty('tool') && jsonURLs.tool !== 'playlist-exporter') {
+			return false;
+		}
+
+		if (jsonURLs && jsonURLs.tool === 'playlist-exporter') {
+			const urls = (jsonURLs.playlists || []).map(music => music.url).filter(Boolean);
+			return {
+				ready: 0,
+				total: urls.length,
+				listType: 'scriptmind.co',
+				list: urls
+			};
+		}
+	} catch (e) {
+	}
+
+
+	// playlistlengthcalc.com
+	try {
+		if (strURLs.includes('\n')) {
+			const urls = strURLs.match(ytRegex);
+
+			if (urls && urls.length > 0) {
+				return {
+					ready: 0,
+					total: urls.length,
+					listType: 'playlistlengthcalc.com',
+					list: urls
+				};
+			}
+		}
+	} catch (e) {
+	}
+
+	// default split by ","
+	try {
+		const urls = strURLs.match(ytRegex);
+		if (urls && urls.length > 0) {
+			return {
+				ready: 0,
+				total: urls.length,
+				listType: 'default',
+				list: urls
+			};
+		}
+	} catch (e) {
+	}
+
+	return false;
+}
