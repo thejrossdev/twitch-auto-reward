@@ -17,6 +17,9 @@
 		 * @param reward {string}
 		 */
 		reward => config.reward.rewardBtns.s(reward)).join(','));
+	/**
+	 * @type {string}
+	 */
 	let prependText = $state(config.settings?.prependText?.music);
 
 	let rawLinks = $state('');
@@ -69,7 +72,7 @@
 		// there is format "[title="text"],[title="text"],[title="text"]'
 		await openAndFindReward(readyRewardSelectors);
 
-		const finalUrl = prependText ? `${prependText}${url}` : url;
+		const finalUrl = prependText ? `${prependText.replace(/\r?\n|\r/, '')}${url}` : url;
 		await insertTextToChat(finalUrl);
 		await sendChatMessage();
 	}
