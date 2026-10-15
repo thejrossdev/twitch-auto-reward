@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         TwitchAutoReward
-// @version      4.0
+// @version      4.1
 // @author       https://github.com/jennifer-ross
 // @description  Automatic clicker to redeem channel points rewards on twitch.tv. And other automations. Built for Tampermonkey.
 // @license      MIT
