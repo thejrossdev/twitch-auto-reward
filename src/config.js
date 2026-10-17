@@ -3,7 +3,8 @@ import {loadSettings} from './utils.js';
 const cfg = {
 	clicker: {
 		loadDelay: 1000,
-		repeatDelay: 150
+		repeatDelay: 150,
+		musicDelay: 500
 	},
 	reward: {
 		btnContainer: {

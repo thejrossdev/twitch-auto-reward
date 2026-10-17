@@ -2,7 +2,7 @@
 	import {onDestroy} from 'svelte'
 	import config from '../config.js'
 	import {insertTextToChat, openAndFindReward, sendChatMessage} from '../twitch.js'
-	import {log, parseURLs, saveSettings} from '../utils.js'
+	import {log, parseURLs, saveSettings, sleep} from '../utils.js'
 
 	let {openPopup, closePopup} = $props();
 
@@ -74,6 +74,7 @@
 
 		const finalUrl = prependText ? `${prependText.replace(/\r?\n|\r/, '')}${url}` : url;
 		await insertTextToChat(finalUrl);
+		await sleep(Math.floor(config.clicker.musicDelay / 2))
 		await sendChatMessage();
 	}
 
@@ -99,7 +100,7 @@
 		while (isEnabled) {
 			log('loop')
 			await action();
-			await new Promise(resolve => setTimeout(resolve, config.clicker.repeatDelay));
+			await new Promise(resolve => setTimeout(resolve, config.clicker.musicDelay));
 		}
 	}
 
