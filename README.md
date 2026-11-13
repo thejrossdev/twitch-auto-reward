@@ -25,10 +25,10 @@ points.
 * [playlistlengthcalc.com](https://www.playlistlengthcalc.com/youtube-playlist-link-extractor) - only `txt` (or
   `copy all`)
 * [scriptmind.co](https://scriptmind.co/youtube-playlist-exporter) - only `json` format
+* Paste URLs split by ","
+* Paste YT URLs in new line, space
 
 > Both tools only work with public playlists. Private, deleted, or region-locked videos may be skipped.
-
-_Also support if you paste URLs split by ","_
 
 ## Installation
 
@@ -37,11 +37,15 @@ _Also support if you paste URLs split by ","_
 	* [Violentmonkey](https://violentmonkey.github.io/) (alternative)
 2. Open the Tampermonkey dashboard and go to the Utilities tab.
 3. Either:
-	* Install the script from a URL (e.g. from GitHub Raw / Greasy Fork), or
+	* Install the script from
+	  a [URL](https://raw.githubusercontent.com/thejrossdev/twitch-auto-reward/refs/heads/master/index.js) or
 	* Create a new script and paste the script code manually, then save (Ctrl+S).
 4. Make sure the script is enabled in the Tampermonkey dashboard.
 5. Open [twitch.tv](https://twitch.tv/) and go to any channel you want to automate.
 6. The script's control panel should appear on the page in the bottom chat.
+7. Make sure you enable `Allow User Scripts
+The extension will be able to run code which has not been reviewed by Google. It may be unsafe and you should only enable this if you know what you are doing.`
+   in extension
 
 > Note: If the panel does not appear, refresh the page. Twitch is a single-page app, so after navigating between
 > channels
